@@ -95,7 +95,6 @@ function installModules(names, success, index=0) {
 			redLog(error);
 			process.exit(1);
 		} else if ((index - names.length) < 0) {
-			console.log('\n' +  name +'\n');
 			installModules(names, success, index+1);
 		} else {
 			success();
@@ -173,7 +172,9 @@ program
 		whiteLog(`Start to create project.`);	
 		let spinner = startNewSpinner('%s waiting...');
 
-		installModules(['react-native',
+		let version = cmd.target ? `@${cmd.target}` : '';
+		installModules([
+			'react-native'+version,
 			'react-navigation-templates',
 			'react-redux',
 			'react-navigation',
@@ -182,12 +183,18 @@ program
 			'redux-thunk',
 			'react-navigation-redux-helpers'], ()=>{
 			spinner.stop(true);
-			grayLog('Install dependense, done.');
+			grayLog('Install dependencies, done.');
 			spinner.start();
 
 			installDefaultFiles(root,name,()=>{
 				spinner.stop(true);
+				grayLog('Initialize Project, done.');
+
+				spinner.start();
 				copyTemplate(name);
+				spinner.stop(true);
+				grayLog('Copy template, done.\n');
+				
 				whiteLog(SUCCESS_LOG(root,name));
 			});
 

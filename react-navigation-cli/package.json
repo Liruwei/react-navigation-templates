@@ -1,6 +1,6 @@
 {
   "name": "react-navigation-cli",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A lightweight package that can create react-naviagtion-templates project.",
   "main": "index.js",
   "scripts": {
