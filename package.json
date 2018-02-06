@@ -1,0 +1,28 @@
+{
+  "name": "react-navigation-templates",
+  "version": "1.0.0",
+  "description": "A collection of react-navigation templates.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Liruwei/react-navigation-templates.git"
+  },
+  "keywords": [
+    "react-native",
+    "react-navigation",
+    "react-redux",
+    "templates"
+  ],
+  "author": "Ruwei Li",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Liruwei/react-navigation-templates/issues"
+  },
+  "homepage": "https://github.com/Liruwei/react-navigation-templates#readme"
+}
