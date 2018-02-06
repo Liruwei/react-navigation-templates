@@ -1,7 +1,7 @@
 {
-  "name": "commander-test",
-  "version": "1.0.0",
-  "description": "using commander",
+  "name": "react-navigation-cli",
+  "version": "0.0.1",
+  "description": "A lightweight package that can create react-naviagtion-templates project.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -23,5 +23,9 @@
     "react-navigation": "^1.0.0-beta.27",
     "react-redux": "^5.0.6",
     "semver": "^5.5.0"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/Liruwei/react-navigation-templates/issues"
+  },
+  "homepage": "https://github.com/Liruwei/react-navigation-templates/react-navigation-cli#readme"
 }

@@ -27,6 +27,19 @@ function redLog(msg) {
 	console.log(chalk.keyword('red')(msg));	
 }
 
+let SUCCESS_LOG = function(root,name) {
+	return `To run your app on iOS:
+cd ${root}
+react-native run-ios
+- or -
+Open ios/${name}.xcodeproj in Xcode
+Hit the Run button
+To run your app on Android:
+cd ${root}
+Have an Android emulator running (quickest way to get started), or a device connected
+react-native run-android`;
+}
+
 let CLI_START_CONTENT = function(projectPath,name,version) {
 	return `#!/usr/bin/env node
 
@@ -103,6 +116,15 @@ function installDefaultFiles(root,name,success) {
 
 function copyTemplate(projectName) {	
 	execSync('cp -r ../project0/src ./src');
+
+    let srcPath = path.resolve() process.cwd(),
+    'node_modules',
+    'react-navigation-templates',
+    'lib',
+    'defaultTemplate',
+    'src');
+	execSync(`cp -r ${srcPath} ./src`);
+
 	let indexPath = path.resolve(process.cwd(),'index.js');
 	fs.writeFileSync(indexPath, 	PROJECT_INDEX_CONTENT(projectName));
 
@@ -152,6 +174,7 @@ program
 		let spinner = startNewSpinner('%s waiting...');
 
 		installModules(['react-native',
+			'react-navigation-templates',
 			'react-redux',
 			'react-navigation',
 			'redux',
@@ -165,26 +188,13 @@ program
 			installDefaultFiles(root,name,()=>{
 				spinner.stop(true);
 				copyTemplate(name);
-				whiteLog('Success');
+				whiteLog(SUCCESS_LOG(root,name));
 			});
 
 		});
 	});
 
 program.parse(process.argv);
-
-/*
-To run your app on iOS:
-   cd /Users/liruwei/Desktop/commander-cli/demo/project1
-   react-native run-ios
-   - or -
-   Open ios/project1.xcodeproj in Xcode
-   Hit the Run button
-To run your app on Android:
-   cd /Users/liruwei/Desktop/commander-cli/demo/project1
-   Have an Android emulator running (quickest way to get started), or a device connected
-   react-native run-android
-*/
 
 
 
