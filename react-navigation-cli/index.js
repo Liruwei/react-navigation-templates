@@ -108,21 +108,22 @@ function installDefaultFiles(root,name,success) {
 
 	fs.writeFileSync(cliPath, CLI_START_CONTENT(root,name));
 
-	fork(cliPath, {silent: false}).on('message', m=>{
+	fork(cliPath, {silent: true}).on('message', m=>{
 		execSync(`rm ${cliPath}`);
 		m === 'success' && success();
 	});
 }
 
 function copyTemplate(projectName) {	
-	execSync('cp -r ../project0/src ./src');
+    let srcPath = path.resolve(
+		process.cwd(),
+	    'node_modules',
+	    'react-navigation-templates',
+	    'lib',
+	    'defaultTemplate',
+	    'src'
+    );
 
-    let srcPath = path.resolve() process.cwd(),
-    'node_modules',
-    'react-navigation-templates',
-    'lib',
-    'defaultTemplate',
-    'src');
 	execSync(`cp -r ${srcPath} ./src`);
 
 	let indexPath = path.resolve(process.cwd(),'index.js');
@@ -146,7 +147,6 @@ program
 	.version('1.0.0')
 	.command('init <ProjectName>')
 	.option('-t , --target [version]', 'Specify the version of react-native to create')
-	.option('--stackInTab', 'sdad')
 	.action((name,cmd)=>{
 
 		let root = path.resolve(process.cwd(),name);
