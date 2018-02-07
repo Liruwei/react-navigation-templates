@@ -11,6 +11,15 @@ let path = require('path');
 let semver = require('semver');
 const chalk = require('chalk');
 
+let taskIndex = 0;
+let totalTask = 10;
+let spinner = new Spinner(`%s waiting [${taskIndex}/${totalTask}]...`);
+spinner.setSpinnerString('⠃⠋⠉⠙⠰⠴⠤⠦');
+function upSpinner() {
+	taskIndex++;
+	spinner.setSpinnerTitle(`%s waiting [${taskIndex}/${totalTask}]...`);
+}
+
 function whiteLog(msg) {
 	console.log(chalk.keyword('white')(msg));
 }
@@ -95,6 +104,7 @@ function installModules(names, success, index=0) {
 			redLog(error);
 			process.exit(1);
 		} else if ((index - names.length) < 0) {
+			upSpinner();
 			installModules(names, success, index+1);
 		} else {
 			success();
@@ -113,13 +123,25 @@ function installDefaultFiles(root,name,success) {
 	});
 }
 
-function copyTemplate(projectName) {	
+function getTemplateName(notDrawer,stackInTab) {
+	if (notDrawer && stackInTab) {
+		return 'noDrawerStackInTabTemplate';
+	} else if (notDrawer) {
+		return 'noDrawerTemplate';
+	} else if (stackInTab) {
+		return 'stackInTabTemplate';
+	} else {
+		return 'defaultTemplate';
+	}
+}
+
+function copyTemplate(projectName,templateName) {	
     let srcPath = path.resolve(
 		process.cwd(),
 	    'node_modules',
 	    'react-navigation-templates',
 	    'lib',
-	    'defaultTemplate',
+	    templateName,
 	    'src'
     );
 
@@ -135,17 +157,12 @@ function copyTemplate(projectName) {
 	execSync(`rm ${appPath}`);
 }
 
-function startNewSpinner(title) {
-	let spinner = new Spinner(title);
-	spinner.setSpinnerString('⠃⠋⠉⠙⠰⠴⠤⠦');
-	spinner.start();
-	return spinner;
-}
-
 program
-	.version('1.0.0')
+	.version('0.1.0')
 	.command('init <ProjectName>')
 	.option('-t , --target [version]', 'Specify the version of react-native to create')
+	.option('--not-drawer', 'Create not-drawer template')
+	.option('--stack-in-tab', 'Create stack-in-tab template')
 	.action((name,cmd)=>{
 
 		let root = path.resolve(process.cwd(),name);
@@ -170,7 +187,7 @@ program
 		}
 
 		whiteLog(`Start to create project.`);	
-		let spinner = startNewSpinner('%s waiting...');
+		spinner.start();
 
 		let version = cmd.target ? `@${cmd.target}` : '';
 		installModules([
@@ -187,11 +204,16 @@ program
 			spinner.start();
 
 			installDefaultFiles(root,name,()=>{
+				upSpinner();
 				spinner.stop(true);
 				grayLog('Initialize Project, done.');
 
 				spinner.start();
-				copyTemplate(name);
+				let projectName = name;
+				let tamplateName = getTemplateName(cmd.notDrawer,cmd.stackInTab);
+				copyTemplate(projectName,tamplateName);
+
+				upSpinner();
 				spinner.stop(true);
 				grayLog('Copy template, done.\n');
 				

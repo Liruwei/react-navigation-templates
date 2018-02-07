@@ -1,6 +1,6 @@
 {
   "name": "react-navigation-cli",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "A lightweight package that can create react-naviagtion-templates project.",
   "main": "index.js",
   "scripts": {
@@ -35,5 +35,5 @@
   "bugs": {
     "url": "https://github.com/Liruwei/react-navigation-templates/issues"
   },
-  "homepage": "https://github.com/Liruwei/react-navigation-templates/react-navigation-cli#readme"
+  "homepage": "https://github.com/Liruwei/react-navigation-templates/tree/master/react-navigation-cli"
 }

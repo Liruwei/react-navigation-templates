@@ -1,7 +1,6 @@
-# react-navigation-cli  
-[![Platform](https://img.shields.io/badge/platform-mac_windows-brightgreen.svg?style=flat)](#)[![npm](https://img.shields.io/npm/v/react-navigation-cli.svg)](https://www.npmjs.com/package/react-navigation-cli)
+# react-navigation-cli  [![Platform](https://img.shields.io/badge/platform-mac_windows-brightgreen.svg?style=flat)](#)[![npm](https://img.shields.io/npm/v/react-navigation-cli.svg)](https://www.npmjs.com/package/react-navigation-cli)
 
-`react-navigation-cli` is a lightweight package that can create [react-naviagtion-templates](https://www.npmjs.com/package/react-navigation-templates) project.
+This is a lightweight package that can create [react-naviagtion-templates](https://www.npmjs.com/package/react-navigation-templates) project.
 
 ## Content
 * [Installation](#1)
