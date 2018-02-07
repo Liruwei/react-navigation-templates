@@ -158,7 +158,7 @@ function copyTemplate(projectName,templateName) {
 }
 
 program
-	.version('0.1.1')
+	.version('0.1.2')
 	.command('init <ProjectName>')
 	.option('-t , --target [version]', 'Specify the version of react-native to create')
 	.option('--not-drawer', 'Create not-drawer template')

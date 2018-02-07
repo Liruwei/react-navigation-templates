@@ -1,6 +1,6 @@
 {
   "name": "react-navigation-cli",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A lightweight package that can create react-naviagtion-templates project.",
   "main": "index.js",
   "scripts": {
@@ -27,9 +27,6 @@
     "cli-spinner": "^0.2.7",
     "commander": "^2.13.0",
     "progress": "^1.1.8",
-    "react-native": "^0.52.2",
-    "react-navigation": "^1.0.0-beta.27",
-    "react-redux": "^5.0.6",
     "semver": "^5.5.0"
   },
   "bugs": {
