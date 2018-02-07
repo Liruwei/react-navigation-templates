@@ -17,6 +17,9 @@ npm install react-navigation-cli -g
 ## <a id=3>Usage</a>
 
 ~~~node
+
+# create-navigation-app init [option] [project_name]
+
 create-navigation-app init project_name
 ~~~
 
