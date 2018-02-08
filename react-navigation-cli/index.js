@@ -98,18 +98,22 @@ it('renders correctly', () => {
 
 function installModules(names, success, index=0) {
 	let name = names[index];
-	let cmd = `npm install --save ${name}`;
-	exec(cmd, (error, stdout, stderr) => {
-		if (error) {
-			redLog(error);
-			process.exit(1);
-		} else if ((index - names.length) < 0) {
-			upSpinner();
-			installModules(names, success, index+1);
-		} else {
-			success();
-		}
-	});
+
+	if (name) {
+		let cmd = `npm install --save ${name}`;
+		exec(cmd, (error, stdout, stderr) => {
+			if (error) {
+				redLog(error);
+				process.exit(1);
+			} else {
+				upSpinner();
+				installModules(names, success, index+1);
+			}
+		});
+	} else {
+		upSpinner();
+		success();
+	}
 }
 
 function installDefaultFiles(root,name,success) {
@@ -158,7 +162,7 @@ function copyTemplate(projectName,templateName) {
 }
 
 program
-	.version('0.1.2')
+	.version('0.1.3')
 	.command('init <ProjectName>')
 	.option('-t , --target [version]', 'Specify the version of react-native to create')
 	.option('--not-drawer', 'Create not-drawer template')
