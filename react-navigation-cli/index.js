@@ -12,12 +12,12 @@ let semver = require('semver');
 const chalk = require('chalk');
 
 let taskIndex = 0;
-let totalTask = 10;
-let spinner = new Spinner(`%s waiting [${taskIndex}/${totalTask}]...`);
+let totalTask = 8;
+let spinner = new Spinner(`%s Install default dependencies [${taskIndex}/${totalTask}] ...`);
 spinner.setSpinnerString('⠃⠋⠉⠙⠰⠴⠤⠦');
 function upSpinner() {
 	taskIndex++;
-	spinner.setSpinnerTitle(`%s waiting [${taskIndex}/${totalTask}]...`);
+	spinner.setSpinnerTitle(`%s Install default dependencies [${taskIndex}/${totalTask}] ...`);
 }
 
 function whiteLog(msg) {
@@ -100,18 +100,17 @@ function installModules(names, success, index=0) {
 	let name = names[index];
 
 	if (name) {
+		upSpinner();
 		let cmd = `npm install --save ${name}`;
 		exec(cmd, (error, stdout, stderr) => {
 			if (error) {
 				redLog(error);
 				process.exit(1);
 			} else {
-				upSpinner();
 				installModules(names, success, index+1);
 			}
 		});
 	} else {
-		upSpinner();
 		success();
 	}
 }
@@ -121,8 +120,8 @@ function installDefaultFiles(root,name,success) {
 
 	fs.writeFileSync(cliPath, CLI_START_CONTENT(root,name));
 
-	fork(cliPath, {silent: true}).on('message', m=>{
-		execSync(`rm ${cliPath}`);
+	fork(cliPath, {silent: false}).on('message', m=>{
+		execSync(`rm '${cliPath}'`);
 		m === 'success' && success();
 	});
 }
@@ -149,7 +148,7 @@ function copyTemplate(projectName,templateName) {
 	    'src'
     );
 
-	execSync(`cp -r ${srcPath} ./src`);
+	execSync(`cp -r '${srcPath}' './src'`);
 
 	let indexPath = path.resolve(process.cwd(),'index.js');
 	fs.writeFileSync(indexPath, 	PROJECT_INDEX_CONTENT(projectName));
@@ -158,11 +157,11 @@ function copyTemplate(projectName,templateName) {
 	fs.writeFileSync(testPath, PROJECT_TEST_CONTENT());
 
 	let appPath = path.resolve(process.cwd(),'App.js');
-	execSync(`rm ${appPath}`);
+	execSync(`rm '${appPath}'`);
 }
 
 program
-	.version('0.1.3')
+	.version('0.1.4')
 	.command('init <ProjectName>')
 	.option('-t , --target [version]', 'Specify the version of react-native to create')
 	.option('--not-drawer', 'Create not-drawer template')
@@ -175,7 +174,7 @@ program
 			console.log(`Directory ${name} already exists.`);
 			process.exit(1);
 		} else {
-			fs.mkdirSync(name, 0755);
+			fs.mkdirSync(name);
 			var packageJson = {
 			    name: name,
 			    version: '0.0.1',
@@ -190,38 +189,30 @@ program
 			process.chdir(root);
 		}
 
-		whiteLog(`Start to create project.`);	
+		grayLog(`Prepare to create project.`);	
 		spinner.start();
 
 		let version = cmd.target ? `@${cmd.target}` : '';
 		installModules([
-			'react-native'+version,
-			'react-navigation-templates',
+			'redux',
 			'react-redux',
 			'react-navigation',
-			'redux',
+			'react-navigation-redux-helpers',
 			'redux-logger',
 			'redux-thunk',
-			'react-navigation-redux-helpers'], ()=>{
+			'react-native'+version,
+			'react-navigation-templates'
+			], ()=>{
+
 			spinner.stop(true);
-			grayLog('Install dependencies, done.');
-			spinner.start();
+			grayLog('Install default dependencies, done.');
 
 			installDefaultFiles(root,name,()=>{
-				upSpinner();
-				spinner.stop(true);
-				grayLog('Initialize Project, done.');
 
-				spinner.start();
 				let projectName = name;
 				let tamplateName = getTemplateName(cmd.notDrawer,cmd.stackInTab);
 				copyTemplate(projectName,tamplateName);
-
-				upSpinner();
-				spinner.stop(true);
-				grayLog('Copy template, done.\n');
-				
-				whiteLog(SUCCESS_LOG(root,name));
+				grayLog('\nSuccess !\n');	
 			});
 
 		});
